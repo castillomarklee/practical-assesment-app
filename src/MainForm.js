@@ -10,7 +10,8 @@ class MainForm extends React.Component {
     super(props);
     this.state = {
       usersList: this.initUserList(10),
-      keyword: null
+      keyword: null,
+      isLoading: false
     };
     this.searchList = this.searchList.bind(this);
     this.userListRender();
@@ -50,9 +51,20 @@ class MainForm extends React.Component {
     return users;
   }
 
+  setLoading(isLoad) {
+    if(isLoad) {
+      this.setState({ isLoading: true });
+    }
+    setTimeout(() => {
+      this.setState({ isLoading: false });
+    }, 2000);
+  }
+
   searchList(keyword) {
+    this.setLoading(true);
     if (!keyword) {
       this.setState({keyword: null});
+      this.setLoading(false);
       return;
     }
     this.userListRender(keyword);
@@ -66,6 +78,7 @@ class MainForm extends React.Component {
     }
     const setList = users.filter(data => email === data.email);
     this.setState({ keyword: email, usersList: setList });
+    this.setLoading(false);
   }
 
   render() {
@@ -86,6 +99,7 @@ class MainForm extends React.Component {
     return (
       <div className="main-form-container">
         <SearchBar searchFunc={this.searchList} />
+        <Spinner isShow={this.state.isLoading} />
         {(searchKeyword) ? users : <h2>No Result!</h2>}
       </div>
     );

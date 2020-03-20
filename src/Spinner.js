@@ -1,13 +1,16 @@
 import React from "react";
 
-const Spinner = () => {
-  return (
-    <div className="ui active dimmer">
-      <div className="ui big text loader">
-        Loading . . .
-      </div>
-    </div>
-  );
+const Spinner = ({ isShow }) => {
+  if(isShow) {
+    return (
+        <div className="ui active dimmer">
+          <div className="ui big text loader">
+            Loading . . .
+          </div>
+        </div>
+      );
+  }
+  return <div></div>;
 };
 
 export default Spinner;
